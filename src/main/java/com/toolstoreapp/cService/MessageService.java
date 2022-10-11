@@ -10,7 +10,6 @@ import java.util.Optional;
 
 @Service
 public class MessageService {
-
     @Autowired
     private MessageRepository messageRepository;
 
