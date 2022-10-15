@@ -41,18 +41,20 @@ public class ReservationController {
         return reservationService.delete(id);
     }
 
-    @GetMapping("/report-clients")
-    public List<CountClient> getReservationReportClient(){
-        return reservationService.getTopClients();
+    @GetMapping("/report-dates/{dateOne}/{dateTwo}")
+    public List<Reservation> getReservationReportDates(@PathVariable("dateOne") String dateOne, @PathVariable("dateTwo") String dateTwo){
+        return reservationService.getReservationPeriod(dateOne, dateTwo);
     }
     @GetMapping("/report-status")
     public StatusAmount getReservationStatus(){
         return reservationService.getReservationStatusReport();
     }
-    @GetMapping("/report-dates/{dateOne}/{dateTwo}")
-    public List<Reservation> getReservationReportDates(@PathVariable("dateOne") String dateOne, @PathVariable("dateTwo") String dateTwo){
-    return reservationService.getReservationPeriod(dateOne, dateTwo);
+    @GetMapping("/report-clients")
+    public List<CountClient> getReservationReportClient(){
+        return reservationService.getTopClients();
     }
+
+
 
 
 }
