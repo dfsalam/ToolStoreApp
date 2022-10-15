@@ -31,6 +31,7 @@ public class Reservation implements Serializable {
 
     private Integer score;
 
+
     public Integer getIdReservation() {
         return idReservation;
     }

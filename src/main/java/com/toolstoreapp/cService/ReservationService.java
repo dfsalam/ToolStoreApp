@@ -1,11 +1,17 @@
 package com.toolstoreapp.cService;
 
 
+import com.toolstoreapp.Personalizado.StatusAmount;
 import com.toolstoreapp.aEntities.Reservation;
+import com.toolstoreapp.Personalizado.CountClient;
 import com.toolstoreapp.bRepository.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -63,6 +69,40 @@ public class ReservationService {
         return flag;
 
     }
+
+
+
+
+
+    public List<CountClient> getTopClients(){
+
+        return reservationRepository.getTopClient();
+    }
+
+    public StatusAmount getReservationStatusReport(){
+        List<Reservation> completed = reservationRepository.getReservationByStatus("completed");
+        List<Reservation> cancelled = reservationRepository.getReservationByStatus("cancelled");
+        return new StatusAmount(completed.size(),cancelled.size());
+    }
+
+    public List<Reservation> getReservationPeriod(String datoA, String datoB){
+        SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd");
+        Date a = new Date();
+        Date b = new Date();
+
+        try{
+            a = parser.parse(datoA);
+            b = parser.parse(datoB);
+        }catch(ParseException e){
+            e.printStackTrace();
+        }
+        if(a.before(b)){
+            return reservationRepository.getReservatioPeriod(a, b);
+        }else{
+            return new ArrayList<>();
+        }
+    }
+
 
 
 }
