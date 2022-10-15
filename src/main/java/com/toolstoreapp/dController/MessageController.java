@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins="*", allowedHeaders ="*")
@@ -21,6 +22,11 @@ public class MessageController {
     @GetMapping("/all")
     public List<Message> getAll(){
         return messageService.getAll();
+    }
+
+    @GetMapping("/{id}")
+    public Optional<Message> getById(@PathVariable("id") int id){
+        return messageService.getMessage(id);
     }
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)

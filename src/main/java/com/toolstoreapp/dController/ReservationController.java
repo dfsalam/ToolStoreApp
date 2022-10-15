@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins="*", allowedHeaders ="*")
@@ -23,6 +24,10 @@ public class ReservationController {
     @GetMapping("/all")
     public List<Reservation> getAll(){
         return reservationService.getAll();
+    }
+    @GetMapping("/{id}")
+    public Optional<Reservation> getById(@PathVariable("id") int id){
+        return reservationService.getReservation(id);
     }
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)

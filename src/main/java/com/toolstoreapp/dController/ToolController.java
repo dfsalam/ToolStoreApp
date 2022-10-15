@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins="*", allowedHeaders ="*")
@@ -21,6 +22,11 @@ public class ToolController {
     @GetMapping("/all")
     public List<Tool> getAll(){
         return toolService.getAll();
+    }
+
+    @GetMapping("/{id}")
+    public Optional<Tool> getById(@PathVariable("id") int id){
+        return toolService.getTool(id);
     }
     @PostMapping("/save")
     @ResponseStatus(HttpStatus.CREATED)
