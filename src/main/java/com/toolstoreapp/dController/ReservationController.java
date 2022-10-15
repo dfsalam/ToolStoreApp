@@ -42,7 +42,7 @@ public class ReservationController {
     }
 
     @GetMapping("/report-clients")
-    public List<CountClient> getReservatioReportClient(){
+    public List<CountClient> getReservationReportClient(){
         return reservationService.getTopClients();
     }
     @GetMapping("/report-status")
@@ -50,7 +50,7 @@ public class ReservationController {
         return reservationService.getReservationStatusReport();
     }
     @GetMapping("/report-dates/{dateOne}/{dateTwo}")
-    public List <Reservation> getReservationReportDates(@PathVariable("dateOne") String dateOne, @PathVariable("dateTwo") String dateTwo){
+    public List<Reservation> getReservationReportDates(@PathVariable("dateOne") String dateOne, @PathVariable("dateTwo") String dateTwo){
     return reservationService.getReservationPeriod(dateOne, dateTwo);
     }
 

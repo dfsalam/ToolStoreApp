@@ -69,11 +69,6 @@ public class ReservationService {
         return flag;
 
     }
-
-
-
-
-
     public List<CountClient> getTopClients(){
 
         return reservationRepository.getTopClient();
@@ -97,7 +92,7 @@ public class ReservationService {
             e.printStackTrace();
         }
         if(a.before(b)){
-            return reservationRepository.getReservatioPeriod(a, b);
+            return reservationRepository.getReservationPeriod(a, b);
         }else{
             return new ArrayList<>();
         }

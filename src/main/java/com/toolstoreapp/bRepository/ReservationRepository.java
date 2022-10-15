@@ -29,12 +29,6 @@ public class ReservationRepository {
     public void delete(Reservation p){
         reservationCrudRepository.delete(p);
     }
-
-
-
-
-
-
     public List<CountClient> getTopClient(){
         List<CountClient> resultado = new ArrayList<>();
         List<Object[]> report = reservationCrudRepository.countTotalReservationByClient();
@@ -43,8 +37,8 @@ public class ReservationRepository {
         }
         return resultado;
     }
-    public List<Reservation> getReservatioPeriod(Date a, Date b ){
-        return reservationCrudRepository.findAllByStartDateAfterAndStartDateBefore(a, b);
+    public List<Reservation> getReservationPeriod(Date a, Date b){
+        return reservationCrudRepository.findAllByStartDateAfterAndStartDateBefore(a,b);
     }
 
     public List<Reservation> getReservationByStatus(String status){
