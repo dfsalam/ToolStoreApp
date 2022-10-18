@@ -76,8 +76,8 @@ function editar(id){
             console.log("Guardar");
             let datos = {
                 messsageText:$("#textoMensaje").val(),
-                client:parseInt$("#cliente").val(),
-                tool:parseInt($("#herramienta").val()),
+                client:parseInt($("#cliente").val()),
+                tool:parseInt($("#herramienta").val())
                             
 
             };
@@ -107,7 +107,7 @@ function editar(id){
             console.log("Guardar");
             let datos = {
                 idMessage:parseInt($("#idEd").val()),
-                messageText:$("#textoMensajeEd").val(),
+                messageText:$("#textoMensajeEd").val()
                      
                 
 
@@ -115,7 +115,7 @@ function editar(id){
 
             var parametros = {
                 "idMessage":datos.idMessage,
-                "messageText":datos.messageText,
+                "messageText":datos.messageText
                               
                 
             };
