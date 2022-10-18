@@ -24,8 +24,8 @@
                     datosMensajes+= "<td>"+datos[i].tool.name+"</td>";
                     
                     
-                    datosMensajes+= "<td><a href =  '#' class = 'btn btn-success' data-bs-toggle='modal' data-bs-target='#modalEditar' onclick='editar("+datos[i].id+");'>Editar</a></td>";
-                    datosMensajes+= "<td><a href = '#' class = 'btn btn-danger' onclick='eliminar("+datos[i].id+");'>Eliminar</a></td>";
+                    datosMensajes+= "<td><a href =  '#' class = 'btn btn-success' data-bs-toggle='modal' data-bs-target='#modalEditar' onclick='editar("+datos[i].idMessage+");'>Editar</a></td>";
+                    datosMensajes+= "<td><a href = '#' class = 'btn btn-danger' onclick='eliminar("+datos[i].idMessage+");'>Eliminar</a></td>";
                     datosMensajes+="</tr>";
                     $("#datos").append(datosMensajes);
                 }
@@ -83,7 +83,7 @@ function editar(id){
             };
 
             var parametros = {
-                "messageText":datos.name,
+                "messageText":datos.messageText,
                 "client":{"idClient":datos.client},
                 "tool":{"id":datos.tool},
                                 
