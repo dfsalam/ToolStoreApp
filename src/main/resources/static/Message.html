@@ -28,9 +28,10 @@
                     datosMensajes+= "<td><a href = '#' class = 'btn btn-danger' onclick='eliminar("+datos[i].idMessage+");'>Eliminar</a></td>";
                     datosMensajes+="</tr>";
                     $("#datos").append(datosMensajes);
+                    console.log(datos[0].idMessage)
                 }
                 console.log(datosMensajes); 
-                
+
 
 
             },
@@ -108,15 +109,12 @@ function editar(id){
             let datos = {
                 idMessage:parseInt($("#idEd").val()),
                 messageText:$("#textoMensajeEd").val()
-                     
-                
 
             };
 
             var parametros = {
                 "idMessage":datos.idMessage,
-                "messageText":datos.messageText
-                              
+                "messageText":datos.messageText,
                 
             };
             let parametroEnvio = JSON.stringify(parametros);

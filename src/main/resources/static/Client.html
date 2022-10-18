@@ -4,33 +4,32 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Herramientas</title>
+    <title>Clientes</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
         $.ajax({
             type:"GET",
             dataType:"JSON",
-            url:"http://132.145.167.124/api/Tool/all",
+            url:"http://132.145.167.124/api/Client/all",
             success:function(datos){
                 console.log(datos.length);
-                let datosHerramientas ="";
+                let datosClientes ="";
                 for(i=0; i<datos.length;i++){
-                    datosHerramientas = "<tr>";
-                    datosHerramientas+= "<td>"+datos[i].id+"</td>";
-                    datosHerramientas+= "<td>"+datos[i].name+"</td>";
-                    datosHerramientas+= "<td>"+datos[i].brand+"</td>";
-                    datosHerramientas+= "<td>"+datos[i].year+"</td>";
-                    datosHerramientas+= "<td>"+datos[i].description+"</td>";
-                    datosHerramientas+="<td>"+datos[i].category.name+"</td>";
+                    datosClientes = "<tr>";
+                    datosClientes+= "<td>"+datos[i].idClient+"</td>";
+                    datosClientes+= "<td>"+datos[i].name+"</td>";
+                    datosClientes+= "<td>"+datos[i].age+"</td>";
+                    datosClientes+= "<td>"+datos[i].email+"</td>";
+                    datosClientes+= "<td>"+datos[i].password+"</td>";
                     
-                    datosHerramientas+= "<td><a href =  '#' class = 'btn btn-success' data-bs-toggle='modal' data-bs-target='#modalEditar' onclick='editar("+datos[i].id+");'>Editar</a></td>";
-                    datosHerramientas+= "<td><a href = '#' class = 'btn btn-danger' onclick='eliminar("+datos[i].id+");'>Eliminar</a></td>";
-                    datosHerramientas+="</tr>";
-                    $("#datos").append(datosHerramientas);
+                    
+                    datosClientes+= "<td><a href =  '#' class = 'btn btn-success' data-bs-toggle='modal' data-bs-target='#modalEditar' onclick='editar("+datos[i].idClient+");'>Editar</a></td>";
+                    datosClientes+= "<td><a href = '#' class = 'btn btn-danger' onclick='eliminar("+datos[i].idClient+");'>Eliminar</a></td>";
+                    datosClientes+="</tr>";
+                    $("#datos").append(datosClientes);
                 }
-                console.log(datosHerramientas); 
-                
+                console.log(datosClientes);              
 
 
             },
@@ -41,11 +40,11 @@
             }
         })
 
-        function eliminar(id){
-            console.log(id);
+        function eliminar(idClient){
+            console.log(idClient);
             $.ajax({
                 type:"DELETE",
-                url:"http://132.145.167.124/api/Tool/"+id,
+                url:"http://158.101.102.8:8080/api/Client/"+idClient,
                 success:function(datos){
                     window.location.reload();
                 }
@@ -53,19 +52,19 @@
         }
 
 //Recoger los datos con el get by id
-function editar(id){
-            console.log(id);
+function editar(idClient){
+            console.log(idClient);
             $.ajax({
                 type:"GET",
                 dataType:"JSON",
-                url:"http://132.145.167.124/api/Tool/"+id,
+                url:"http://132.145.167.124/api/Client/"+idClient,
                 success:function(datos){
                     console.log(datos);
-                    document.querySelector("#idEd").value = datos.id;
+                    document.querySelector("#idClientEd").value = datos.idClient;
                     document.querySelector("#nombreEd").value = datos.name;
-                    document.querySelector("#marcaEd").value = datos.brand;
-                    document.querySelector("#añoEd").value = datos.year;
-                    document.querySelector("#descripcionEd").value = datos.description;
+                    document.querySelector("#edadEd").value = datos.age;
+                    document.querySelector("#emailEd").value = datos.email;
+                    document.querySelector("#passwordEd").value = datos.password;
                    
                     
 
@@ -79,26 +78,26 @@ function editar(id){
             console.log("Guardar");
             let datos = {
                 name:$("#nombre").val(),
-                brand:$("#marca").val(),
-                year:parseInt($("#año").val()),
-                description: $("#descripcion").val(),
-                category:parseInt($("#categoria").val())
+                age:parseInt($("#edad").val()),
+                email:$("#email").val(),
+                password: $("#password").val(),
+                
                 
 
             };
 
             var parametros = {
-                "id":datos.id,
+                "idClient":datos.idClient,
                 "name":datos.name,
-                "brand":datos.brand,
-                "year":datos.year,
-                "description":datos.description,
-                "category":{"id":datos.category}
+                "age":datos.age,
+                "email":datos.email,
+                "password":datos.password,
+                
                 
             };
             let parametroEnvio = JSON.stringify(parametros);
             $.ajax({
-                url:"http://132.145.167.124/api/Tool/save",
+                url:"http://132.145.167.124/api/Client/save",
                 type:"POST",
                 dataType: "JSON",
                 contentType:"application/JSON",
@@ -114,28 +113,28 @@ function editar(id){
     function guardarEd(){
             console.log("Guardar");
             let datos = {
-                id:parseInt($("#idEd").val()),
+                idClient:parseInt($("#idClientEd").val()),
                 nombre:$("#nombreEd").val(),
-                marca:$("#marcaEd").val(),
-                año:parseInt($("#añoEd").val()),
-                descripcion: $("#descripcionEd").val(),
+                edad:parseInt($("#edadEd").val()),
+                email:$("#emailEd").val(),                
+                password: $("#passwordEd").val(),
                 
                 
 
             };
 
             var parametros = {
-                "id":datos.id,
+                "idClient":datos.idClient,
                 "name":datos.nombre,
-                "brand":datos.marca,
-                "year":datos.año,
-                "description":datos.descripcion,
+                "age":datos.edad,
+                "email":datos.email,
+                "password":datos.password,
                 
                 
             };
             let parametroEnvio = JSON.stringify(parametros);
             $.ajax({
-                url:"http://132.145.167.124/api/Tool/update",
+                url:"http://132.145.167.124/api/Client/update",
                 type:"PUT",
                 dataType: "JSON",
                 contentType:"application/JSON",
@@ -153,18 +152,17 @@ function editar(id){
 </head>
 <body>
     <div class="container">
-        <h1 class="mb-5">Herramientas</h1>
-        <a href="agregarHerramienta.html" class="btn btn-info" data-bs-toggle='modal' data-bs-target='#modalAgregar'>Agregar Herramienta</a>
+        <h1 class="mb-5">Clientes</h1>
+        <a href="agregarHerramienta.html" class="btn btn-info" data-bs-toggle='modal' data-bs-target='#modalAgregar'>Agregar Cliente</a>
         <a href="index.html" class="btn btn-success" >Menu Principal</a>
-        <table class="table mt-5" id="Herramientas">
+        <table class="table mt-5" id="Clientes">
             <thead>
                 <tr>
                     <th>ID</th>
                     <th>Nombre</th>
-                    <th>Marca</th>
-                    <th>Año</th>
-                    <th>Descripcion</th>
-                    <th >Categoria</th>
+                    <th>Edad</th>
+                    <th>Email</th>
+                    <th>Password</th>
                     <th colspan="2">Acciones</th>
                     
     
@@ -184,7 +182,7 @@ function editar(id){
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                    <h5 class="modal-title" id="modalAgregarLabel">Agregar Herramienta</h5>
+                    <h5 class="modal-title" id="modalAgregarLabel">Agregar Cliente</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -193,22 +191,18 @@ function editar(id){
                             <input type="text" class="form-control" id="nombre" placeholder="Nombre">
                         </div>
                         <div class="mb-3">
-                            <label for="marca" class="form-label">Marca</label>
-                            <input type="text" class="form-control" id="marca" placeholder="Marca">
+                            <label for="edad" class="form-label">Edad</label>
+                            <input type="text" class="form-control" id="edad" placeholder="Edad">
                         </div>
                         <div class="mb-3">
-                            <label for="año" class="form-label">Año</label>
-                            <input type="text" class="form-control" id="año" placeholder="Año">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="text" class="form-control" id="email" placeholder="Email">
                         </div>
                         <div class="mb-3">
-                            <label for="descripcion" class="form-label">Descripcion</label>
-                            <input type="text" class="form-control" id="descripcion" placeholder="Descripcion">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="text" class="form-control" id="password" placeholder="Password">
                         </div>
-                        <div class="mb-3">
-                            <label for="categoria" class="form-label">Categoria</label>
-                            <input type="text" class="form-control" id="categoria" placeholder="Categoria">
-                        </div>
-                        
+                                                
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -223,26 +217,26 @@ function editar(id){
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                    <h5 class="modal-title" id="modalEditarLabel">Editar Herramienta</h5>
+                    <h5 class="modal-title" id="modalEditarLabel">Editar Cliente</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <input type="hidden" id="idEd">
+                        <input type="hidden" id="idClientEd">
                         <div class="mb-3">
                             <label for="nombre" class="form-label">Nombre</label>
                             <input type="text" class="form-control" id="nombreEd" placeholder="Nombre">
                         </div>
                         <div class="mb-3">
-                            <label for="marca" class="form-label">Marca</label>
-                            <input type="text" class="form-control" id="marcaEd" placeholder="Marca">
+                            <label for="edad" class="form-label">Edad</label>
+                            <input type="text" class="form-control" id="edadEd" placeholder="Edad">
                         </div>
                         <div class="mb-3">
-                            <label for="año" class="form-label">Año</label>
-                            <input type="text" class="form-control" id="añoEd" placeholder="Año">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="text" class="form-control" id="emailEd" placeholder="Email">
                         </div>
                         <div class="mb-3">
-                            <label for="descripcion" class="form-label">Descripción</label>
-                            <input type="text" class="form-control" id="descripcionEd" placeholder="Descripción">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="text" class="form-control" id="passwordEd" placeholder="Password">
                         </div>
                         
                     </div>

@@ -4,33 +4,30 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Herramientas</title>
+    <title>Reservas</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
         $.ajax({
             type:"GET",
             dataType:"JSON",
-            url:"http://132.145.167.124/api/Tool/all",
+            url:"http://132.145.167.124/api/Reservation/all",
             success:function(datos){
                 console.log(datos.length);
-                let datosHerramientas ="";
+                let datosReservas ="";
                 for(i=0; i<datos.length;i++){
-                    datosHerramientas = "<tr>";
-                    datosHerramientas+= "<td>"+datos[i].id+"</td>";
-                    datosHerramientas+= "<td>"+datos[i].name+"</td>";
-                    datosHerramientas+= "<td>"+datos[i].brand+"</td>";
-                    datosHerramientas+= "<td>"+datos[i].year+"</td>";
-                    datosHerramientas+= "<td>"+datos[i].description+"</td>";
-                    datosHerramientas+="<td>"+datos[i].category.name+"</td>";
-                    
-                    datosHerramientas+= "<td><a href =  '#' class = 'btn btn-success' data-bs-toggle='modal' data-bs-target='#modalEditar' onclick='editar("+datos[i].id+");'>Editar</a></td>";
-                    datosHerramientas+= "<td><a href = '#' class = 'btn btn-danger' onclick='eliminar("+datos[i].id+");'>Eliminar</a></td>";
-                    datosHerramientas+="</tr>";
-                    $("#datos").append(datosHerramientas);
+                    datosReservas = "<tr>";
+                    datosReservas+= "<td>"+datos[i].idReservation+"</td>";
+                    datosReservas+= "<td>"+datos[i].startDate+"</td>";
+                    datosReservas+= "<td>"+datos[i].devolutionDate+"</td>";
+                    datosReservas+= "<td>"+datos[i].status+"</td>";
+                                       
+                    datosReservas+= "<td><a href =  '#' class = 'btn btn-success' data-bs-toggle='modal' data-bs-target='#modalEditar' onclick='editar("+datos[i].idReservation+");'>Editar</a></td>";
+                    datosReservas+= "<td><a href = '#' class = 'btn btn-danger' onclick='eliminar("+datos[i].idReservation+");'>Eliminar</a></td>";
+                    datosReservas+="</tr>";
+                    $("#datos").append(datosReservas);
                 }
-                console.log(datosHerramientas); 
-                
+                console.log(datosReservas);              
 
 
             },
@@ -41,11 +38,11 @@
             }
         })
 
-        function eliminar(id){
-            console.log(id);
+        function eliminar(idReservation){
+            console.log(idReservation);
             $.ajax({
                 type:"DELETE",
-                url:"http://132.145.167.124/api/Tool/"+id,
+                url:"http://132.145.167.124/api/Reservation/"+idReservation,
                 success:function(datos){
                     window.location.reload();
                 }
@@ -53,22 +50,18 @@
         }
 
 //Recoger los datos con el get by id
-function editar(id){
-            console.log(id);
+function editar(idReservation){
+            console.log(idReservation);
             $.ajax({
                 type:"GET",
                 dataType:"JSON",
-                url:"http://132.145.167.124/api/Tool/"+id,
+                url:"http://132.145.167.124/api/Reservation/"+idReservation,
                 success:function(datos){
                     console.log(datos);
-                    document.querySelector("#idEd").value = datos.id;
-                    document.querySelector("#nombreEd").value = datos.name;
-                    document.querySelector("#marcaEd").value = datos.brand;
-                    document.querySelector("#añoEd").value = datos.year;
-                    document.querySelector("#descripcionEd").value = datos.description;
-                   
-                    
-
+                    document.querySelector("#idReservationEd").value = datos.idReservation;
+                    document.querySelector("#startDateEd").value = datos.startDate;
+                    document.querySelector("#devolutionDateEd").value = datos.devolutionDate;
+                    document.querySelector("#statusEd").value = datos.status;
                     
                 }
             })
@@ -78,27 +71,22 @@ function editar(id){
          function guardar(){
             console.log("Guardar");
             let datos = {
-                name:$("#nombre").val(),
-                brand:$("#marca").val(),
-                year:parseInt($("#año").val()),
-                description: $("#descripcion").val(),
-                category:parseInt($("#categoria").val())
+                startDate:Date.parse($("#inicio").val()),
+                devolutionDate:Date.parse($("#devolucion").val()),
+                status:$("#status").val(),
                 
-
             };
 
             var parametros = {
-                "id":datos.id,
-                "name":datos.name,
-                "brand":datos.brand,
-                "year":datos.year,
-                "description":datos.description,
-                "category":{"id":datos.category}
+                "idReservation":datos.idReservation,
+                "startDate":datos.startDate,
+                "devolutionDate":datos.devolutionDate,
+                "status":datos.status,
                 
             };
             let parametroEnvio = JSON.stringify(parametros);
             $.ajax({
-                url:"http://132.145.167.124/api/Tool/save",
+                url:"http://132.145.167.124/api/Reservation/save",
                 type:"POST",
                 dataType: "JSON",
                 contentType:"application/JSON",
@@ -114,28 +102,23 @@ function editar(id){
     function guardarEd(){
             console.log("Guardar");
             let datos = {
-                id:parseInt($("#idEd").val()),
-                nombre:$("#nombreEd").val(),
-                marca:$("#marcaEd").val(),
-                año:parseInt($("#añoEd").val()),
-                descripcion: $("#descripcionEd").val(),
+                idReservation:parseInt($("#idReservationEd").val()),
+                inicio:Date.parse($("#startDateEd").val()),
+                devolucion:Date.parse($("#devolutionDateEd").val()),
+                status:$("#statusEd").val(),                
                 
-                
-
             };
 
             var parametros = {
-                "id":datos.id,
-                "name":datos.nombre,
-                "brand":datos.marca,
-                "year":datos.año,
-                "description":datos.descripcion,
-                
+                "idReservation":datos.idReservation,
+                "startDate":datos.startDate,
+                "devolutionDate":datos.devolutionDate,
+                "status":datos.status,
                 
             };
             let parametroEnvio = JSON.stringify(parametros);
             $.ajax({
-                url:"http://132.145.167.124/api/Tool/update",
+                url:"http://132.145.167.124/api/Reservation/update",
                 type:"PUT",
                 dataType: "JSON",
                 contentType:"application/JSON",
@@ -153,18 +136,16 @@ function editar(id){
 </head>
 <body>
     <div class="container">
-        <h1 class="mb-5">Herramientas</h1>
-        <a href="agregarHerramienta.html" class="btn btn-info" data-bs-toggle='modal' data-bs-target='#modalAgregar'>Agregar Herramienta</a>
+        <h1 class="mb-5">Reservas</h1>
+        <a href="agregarHerramienta.html" class="btn btn-info" data-bs-toggle='modal' data-bs-target='#modalAgregar'>Agregar Reserva</a>
         <a href="index.html" class="btn btn-success" >Menu Principal</a>
-        <table class="table mt-5" id="Herramientas">
+        <table class="table mt-5" id="Reservas">
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Marca</th>
-                    <th>Año</th>
-                    <th>Descripcion</th>
-                    <th >Categoria</th>
+                    <th>Fecha de Inicio</th>
+                    <th>Fecha de Devolucion</th>
+                    <th>Status</th>
                     <th colspan="2">Acciones</th>
                     
     
@@ -184,31 +165,23 @@ function editar(id){
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                    <h5 class="modal-title" id="modalAgregarLabel">Agregar Herramienta</h5>
+                    <h5 class="modal-title" id="modalAgregarLabel">Agregar Reserva</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="nombre" class="form-label">Nombre</label>
-                            <input type="text" class="form-control" id="nombre" placeholder="Nombre">
+                            <label for="inicio" class="form-label">Inicio</label>
+                            <input type="text" class="form-control" id="inicio" placeholder="Inicio">
                         </div>
                         <div class="mb-3">
-                            <label for="marca" class="form-label">Marca</label>
-                            <input type="text" class="form-control" id="marca" placeholder="Marca">
+                            <label for="devolucion" class="form-label">Devolucion</label>
+                            <input type="text" class="form-control" id="devolucion" placeholder="Devolucion">
                         </div>
                         <div class="mb-3">
-                            <label for="año" class="form-label">Año</label>
-                            <input type="text" class="form-control" id="año" placeholder="Año">
+                            <label for="status" class="form-label">Status</label>
+                            <input type="text" class="form-control" id="status" placeholder="Status">
                         </div>
-                        <div class="mb-3">
-                            <label for="descripcion" class="form-label">Descripcion</label>
-                            <input type="text" class="form-control" id="descripcion" placeholder="Descripcion">
-                        </div>
-                        <div class="mb-3">
-                            <label for="categoria" class="form-label">Categoria</label>
-                            <input type="text" class="form-control" id="categoria" placeholder="Categoria">
-                        </div>
-                        
+                                                
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -223,28 +196,24 @@ function editar(id){
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                    <h5 class="modal-title" id="modalEditarLabel">Editar Herramienta</h5>
+                    <h5 class="modal-title" id="modalEditarLabel">Editar Reserva</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <input type="hidden" id="idEd">
+                        <input type="hidden" id="idReservationEd">
                         <div class="mb-3">
-                            <label for="nombre" class="form-label">Nombre</label>
-                            <input type="text" class="form-control" id="nombreEd" placeholder="Nombre">
+                            <label for="inicio" class="form-label">Inicio</label>
+                            <input type="text" class="form-control" id="startDateEd" placeholder="Inicio">
                         </div>
                         <div class="mb-3">
-                            <label for="marca" class="form-label">Marca</label>
-                            <input type="text" class="form-control" id="marcaEd" placeholder="Marca">
+                            <label for="devolucion" class="form-label">Devolucion</label>
+                            <input type="text" class="form-control" id="devolutionDateEd" placeholder="Devolucion">
                         </div>
                         <div class="mb-3">
-                            <label for="año" class="form-label">Año</label>
-                            <input type="text" class="form-control" id="añoEd" placeholder="Año">
+                            <label for="status" class="form-label">Status</label>
+                            <input type="text" class="form-control" id="statusEd" placeholder="Status">
                         </div>
-                        <div class="mb-3">
-                            <label for="descripcion" class="form-label">Descripción</label>
-                            <input type="text" class="form-control" id="descripcionEd" placeholder="Descripción">
-                        </div>
-                        
+                                                
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
