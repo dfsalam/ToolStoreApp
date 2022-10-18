@@ -11,7 +11,7 @@
         $.ajax({
             type:"GET",
             dataType:"JSON",
-            url:"http://158.101.102.8:8080/api/Message/all",
+            url:"http://132.145.167.124/api/Message/all",
             success:function(datos){
                 
                 let datosMensajes ="";
@@ -45,7 +45,7 @@
             console.log(id);
             $.ajax({
                 type:"DELETE",
-                url:"http://158.101.102.8:8080/api/Message/"+id,
+                url:"http://132.145.167.124/api/Message/"+id,
                 success:function(datos){
                     window.location.reload();
                 }
@@ -58,7 +58,7 @@ function editar(id){
             $.ajax({
                 type:"GET",
                 dataType:"JSON",
-                url:"http://158.101.102.8:8080/api/Message/"+id,
+                url:"http://132.145.167.124/api/Message/"+id,
                 success:function(datos){
                     console.log(datos);
                     document.querySelector("#idEd").value = datos.idMessage;
@@ -90,7 +90,7 @@ function editar(id){
             };
             let parametroEnvio = JSON.stringify(parametros);
             $.ajax({
-                url:"http://158.101.102.8:8080/api/Message/save",
+                url:"http://132.145.167.124/api/Message/save",
                 type:"POST",
                 dataType: "JSON",
                 contentType:"application/JSON",
@@ -121,7 +121,7 @@ function editar(id){
             };
             let parametroEnvio = JSON.stringify(parametros);
             $.ajax({
-                url:"http://158.101.102.8:8080/api/Message/update",
+                url:"http://132.145.167.124/api/Message/update",
                 type:"PUT",
                 dataType: "JSON",
                 contentType:"application/JSON",
